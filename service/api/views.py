@@ -46,7 +46,7 @@ async def get_reco(
         raise UserNotFoundError(error_message=f"User {user_id} not found")
 
     return RecoResponse(user_id=user_id, items=reco)
-    
+
 
 def add_views(app: FastAPI) -> None:
     app.include_router(router)
