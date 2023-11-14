@@ -36,4 +36,4 @@ class ModelNotFoundError(AppException):
             error_message: str = "Model is unknown",
             error_loc: tp.Optional[tp.Sequence[str]] = None,
     ):
-        super().__init__(status_code, error_key, error_message, error_loc) 
+        super().__init__(status_code, error_key, error_message, error_loc)
