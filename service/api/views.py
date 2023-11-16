@@ -7,6 +7,10 @@ from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
 
 
+class ErrorMessage(BaseModel):
+    msg: str
+
+
 class RecoResponse(BaseModel):
     user_id: int
     items: List[int]
@@ -27,6 +31,16 @@ async def health() -> str:
     path="/reco/{model_name}/{user_id}",
     tags=["Recommendations"],
     response_model=RecoResponse,
+    responses={
+        200: {
+            "description": "Successful request",
+            "model": RecoResponse
+        },
+        404: {
+            "description": "Request error",
+            "model": ErrorMessage
+        }
+    }
 )
 async def get_reco(
     request: Request,
