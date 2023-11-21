@@ -30,18 +30,10 @@ class UserNotFoundError(AppException):
 
 class ModelNotFoundError(AppException):
     def __init__(
-<<<<<<< HEAD
         self,
         status_code: int = HTTPStatus.NOT_FOUND,
         error_key: str = "model_not_found",
         error_message: str = "Model is unknown",
         error_loc: tp.Optional[tp.Sequence[str]] = None,
-=======
-            self,
-            status_code: int = HTTPStatus.NOT_FOUND,
-            error_key: str = "model_not_found",
-            error_message: str = "Model is unknown",
-            error_loc: tp.Optional[tp.Sequence[str]] = None,
->>>>>>> b87211a7988c72a788e2b13c99801abd40112b8b
     ):
         super().__init__(status_code, error_key, error_message, error_loc)
