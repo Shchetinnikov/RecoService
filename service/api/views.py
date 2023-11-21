@@ -3,8 +3,12 @@ from typing import List
 from fastapi import APIRouter, FastAPI, Request
 from pydantic import BaseModel
 
-from service.api.exceptions import UserNotFoundError
+from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
+
+
+class ErrorMessage(BaseModel):
+    msg: str
 
 
 class RecoResponse(BaseModel):
@@ -27,6 +31,16 @@ async def health() -> str:
     path="/reco/{model_name}/{user_id}",
     tags=["Recommendations"],
     response_model=RecoResponse,
+    responses={
+        200: {
+            "description": "Successful request",
+            "model": RecoResponse
+        },
+        404: {
+            "description": "Request error",
+            "model": ErrorMessage
+        }
+    }
 )
 async def get_reco(
     request: Request,
@@ -36,12 +50,15 @@ async def get_reco(
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
     # Write your code here
+    if model_name == "range_model":
+        k_recs = request.app.state.k_recs
+        reco = list(range(k_recs))
+    else:
+        raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
     if user_id > 10**9:
         raise UserNotFoundError(error_message=f"User {user_id} not found")
 
-    k_recs = request.app.state.k_recs
-    reco = list(range(k_recs))
     return RecoResponse(user_id=user_id, items=reco)
 
 
