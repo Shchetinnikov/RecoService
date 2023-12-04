@@ -1,6 +1,7 @@
 import dill
 from service.api.exceptions import ModelLoadError
 
+dill.settings['recurse']=True
 
 def load_model(file_path):
     try:
