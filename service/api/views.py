@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, FastAPI, Request
 from pydantic import BaseModel
 
+from models.loader import load_model
 from service.api.exceptions import ModelNotFoundError, UserNotFoundError
 from service.log import app_logger
 
@@ -49,10 +50,12 @@ async def get_reco(
 ) -> RecoResponse:
     app_logger.info(f"Request for model: {model_name}, user_id: {user_id}")
 
-    # Write your code here
+    k_recs = request.app.state.k_recs
     if model_name == "range_model":
-        k_recs = request.app.state.k_recs
         reco = list(range(k_recs))
+    elif model_name == "custom_userknn":
+        userknn_model = load_model("models/custom_userknn.dill")
+        reco = userknn_model.predict_single(user_id, N_recs=k_recs)
     else:
         raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
