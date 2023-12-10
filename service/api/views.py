@@ -51,8 +51,8 @@ async def get_reco(
         userknn_model = load_model("models/custom_userknn.dill")
         reco = userknn_model.predict_single(user_id, N_recs=k_recs)
     elif model_name == "custom_lightFM":
-        ann_model = load_model("models/custom_lightFM.dill")
-        reco = ann_model.get_item_list_for_user(user_id, top_n=k_recs)
+        lightfm_model = load_model("models/custom_lightFM.dill")
+        reco = lightfm_model.predict_single(user_id, N_recs=k_recs)
     else:
         raise ModelNotFoundError(error_message=f"Model {model_name} not found")
 
