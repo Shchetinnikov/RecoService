@@ -30,7 +30,6 @@ wheel = "^0.42.0"
 setuptools = "^69.0.2"
 cmake = "^3.27.9"
 nmslib = "^2.1.1"
-lightfm = "^1.17"
 pip = "^23.3.1"
 
 [tool.poetry.group.dev.dependencies]

@@ -11,6 +11,7 @@ CONTAINER_NAME := reco_service
 .venv:
 	poetry install --no-root
 	poetry check
+	pip install lightfm
 
 setup: .venv
 
